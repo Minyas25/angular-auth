@@ -13,7 +13,10 @@ export class RegisterComponent {
   constructor(private authService:AuthService){}
 
   onSubmit() {
-    this.authService.addUser(this.user).subscribe(() => this.feedback ='Registration complete.');
+    this.authService.addUser(this.user).subscribe({
+      complete:() => this.feedback ='Registration complete.',
+      error: () => this.feedback = 'User already exists'
+    });
   }
 
 }
