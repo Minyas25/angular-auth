@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>Register</mat-card-title>
+        <mat-card-title>{{isLogin ? 'Login':'Register'}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
 
@@ -14,11 +14,23 @@
             <div>
                 <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
-                    <input matInput type="password" placeholder="password" name="password" [(ngModel)]="user.password" required>
+                    <input matInput type="password"  placeholder="password" name="password" [(ngModel)]="user.password" required>
                 </mat-form-field>
             </div>
-            <button mat-raised-button color="primary" [disabled]="register.form.invalid">Register</button>
+            <div *ngIf="!isLogin">
+                <mat-form-field appearance="outline">
+                    <mat-label>Repeat Password</mat-label>
+                    <input matInput type="password" placeholder="Repeat password" name="repeat-password" [(ngModel)]="repeat" required>
+                </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary" [disabled]="register.form.invalid || (!isLogin && repeat != user.password)">
+                {{isLogin ? 'Login':'Register'}}
+            </button>
+            <button mat-raised-button color="secondary" type="button" (click)="isLogin = !isLogin">
+                {{!isLogin ? 'Login':'Register'}}
+            </button>
         </form>
+        <p *ngIf="!isLogin && repeat != user.password">Password does not match</p>
         <p *ngIf="feedback">{{feedback}}</p>
 
     </mat-card-content>

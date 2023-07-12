@@ -9,7 +9,10 @@ import { AuthService } from '../auth.service';
 })
 export class RegisterComponent {
   user:User = {email:'', password:''};
-  feedback = ''
+  repeat = '';
+  feedback = '';
+  isLogin = false;
+  
   constructor(private authService:AuthService){}
 
   onSubmit() {
