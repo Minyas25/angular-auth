@@ -16,10 +16,18 @@ export class RegisterComponent {
   constructor(private authService:AuthService){}
 
   onSubmit() {
-    this.authService.addUser(this.user).subscribe({
-      complete:() => this.feedback ='Registration complete.',
-      error: () => this.feedback = 'User already exists'
-    });
+    if(!this.isLogin) {
+
+      this.authService.addUser(this.user).subscribe({
+        complete:() => this.feedback ='Registration complete.',
+        error: () => this.feedback = 'User already exists'
+      });
+    } else {
+      this.authService.login(this.user).subscribe({
+        complete:() => this.feedback ='Login successful.',
+        error: () => this.feedback = 'Credentials error'
+      });
+    }
   }
 
 }
