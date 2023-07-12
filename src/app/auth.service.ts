@@ -9,6 +9,8 @@ import { tap } from 'rxjs';
 })
 export class AuthService {
 
+  logged = localStorage.getItem('token')?true:false;
+
   constructor(private http:HttpClient) { }
 
   addUser(user:User) {
@@ -16,11 +18,19 @@ export class AuthService {
   }
   login(user:User) {
     return this.http.post<{token:string}>(environment.serverUrl+'/api/login', user).pipe(
-      tap(data => localStorage.setItem('token', data.token))
+      tap(data => {
+        localStorage.setItem('token', data.token); 
+        this.logged = true;
+      })
     );
   }
 
   getUser() {
     return this.http.get(environment.serverUrl + '/api/protected');
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.logged =false;
   }
 }
