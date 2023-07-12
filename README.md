@@ -23,7 +23,7 @@ Grâce au pipe et au tap, on fait en sorte de récupérer le token en question l
 ### Une méthode d'inscription
 ```typescript
 register(user:User) {
-    return this.http.post<User>('http://localhost:8080/api/user', user);
+    return this.http.post<User>(environment.serverUrl+'/api/user', user);
 }
 ```
 Qui va donc poster un nouveau user sur la base de données
@@ -44,7 +44,7 @@ Pour que l'authentification soit effective, il faut injecter le token dans les r
 Exemple:
 ```typescript
 routeProtegee(user:User) {
-    return this.http.get<Truc[]>('http://localhost:8080/api/truc', {
+    return this.http.get<Truc[]>(environment.serverUrl+'/api/truc', {
         headers: {
             Authorization: 'Bearer '+localstorage.getItem('token')
         }
